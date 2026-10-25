@@ -190,6 +190,21 @@ object AllSettings : SettingsRegistry() {
     val hideMouse = boolSetting("hideMouse", true)
 
     /**
+     * 在没有指针移动时自动隐藏虚拟鼠标
+     */
+    val autoHideMouse = boolSetting("autoHideMouse", true)
+
+    /**
+     * 虚拟鼠标自动隐藏前的空闲时间（毫秒）
+     */
+    val mouseAutoHideDelay = intSetting("mouseAutoHideDelay", 3000, 500..15000)
+
+    /**
+     * 始终隐藏虚拟鼠标
+     */
+    val alwaysHideMouse = boolSetting("alwaysHideMouse", false)
+
+    /**
      * 虚拟鼠标大小（Dp）
      */
     val mouseSize = intSetting("mouseSize", 24, 5..50)

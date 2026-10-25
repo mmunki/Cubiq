@@ -81,7 +81,6 @@ import com.movtery.zalithlauncher.ui.screens.NormalNavKey
 import com.movtery.zalithlauncher.ui.screens.TitledNavKey
 import com.movtery.zalithlauncher.ui.screens.content.download.DownloadFavoritesScreen
 import com.movtery.zalithlauncher.ui.screens.content.download.DownloadGameScreen
-import com.movtery.zalithlauncher.ui.screens.content.download.DownloadModPackScreen
 import com.movtery.zalithlauncher.ui.screens.content.download.DownloadModScreen
 import com.movtery.zalithlauncher.ui.screens.content.download.DownloadResourcePackScreen
 import com.movtery.zalithlauncher.ui.screens.content.download.DownloadSavesScreen
@@ -95,7 +94,6 @@ import com.movtery.zalithlauncher.ui.screens.rememberTransitionSpec
 import com.movtery.zalithlauncher.utils.animation.swapAnimateDpAsState
 import com.movtery.zalithlauncher.viewmodel.ErrorViewModel
 import com.movtery.zalithlauncher.viewmodel.EventViewModel
-import com.movtery.zalithlauncher.viewmodel.ModpackImportViewModel
 import com.movtery.zalithlauncher.viewmodel.ScreenBackStackViewModel
 
 /**
@@ -121,7 +119,7 @@ private fun ScreenBackStackViewModel.swapToCategoryAssets(
 ) {
     val targetScreen = when (classes) {
         PlatformClasses.MOD -> downloadModScreen
-        PlatformClasses.MOD_PACK -> downloadModPackScreen
+        PlatformClasses.MOD_PACK -> return
         PlatformClasses.RESOURCE_PACK -> downloadResourcePackScreen
         PlatformClasses.SAVES -> downloadSavesScreen
         PlatformClasses.SHADERS -> downloadShadersScreen
@@ -144,7 +142,6 @@ private fun ScreenBackStackViewModel.swapToCategoryAssets(
 fun DownloadScreen(
     key: NestedNavKey.Download,
     backScreenViewModel: ScreenBackStackViewModel,
-    modpackImportViewModel: ModpackImportViewModel,
     eventViewModel: EventViewModel,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit
 ) {
@@ -211,7 +208,6 @@ fun DownloadScreen(
                     key = key,
                     backScreenViewModel = backScreenViewModel,
                     eventViewModel = eventViewModel,
-                    modpackImportViewModel = modpackImportViewModel,
                     submitError = submitError,
                     modifier = Modifier.fillMaxSize()
                 )
@@ -240,7 +236,6 @@ private fun HorizontalTabMenu(
 ) {
     val downloadsList = listOf(
         CategoryItem(backScreenViewModel.downloadModScreen, { CategoryIcon(R.drawable.ic_extension_outlined, R.string.download_category_mod) }, R.string.download_category_mod),
-        CategoryItem(backScreenViewModel.downloadModPackScreen, { CategoryIcon(R.drawable.ic_package_2_outlined, R.string.download_category_modpack) }, R.string.download_category_modpack),
         CategoryItem(backScreenViewModel.downloadResourcePackScreen, { CategoryIcon(R.drawable.ic_format_paint_outlined, R.string.download_category_resource_pack) }, R.string.download_category_resource_pack),
         CategoryItem(backScreenViewModel.downloadShadersScreen, { CategoryIcon(R.drawable.ic_lightbulb, R.string.download_category_shaders) }, R.string.download_category_shaders),
         CategoryItem(backScreenViewModel.downloadGameScreen, { CategoryIcon(R.drawable.ic_sports_esports_outlined, R.string.download_category_game) }, R.string.download_category_game),
@@ -341,7 +336,6 @@ private fun NavigationUI(
     key: NestedNavKey.Download,
     backScreenViewModel: ScreenBackStackViewModel,
     eventViewModel: EventViewModel,
-    modpackImportViewModel: ModpackImportViewModel,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -371,19 +365,6 @@ private fun NavigationUI(
                             backScreenViewModel.downloadGameScreen.currentKey = newKey
                         },
                         eventViewModel = eventViewModel
-                    )
-                }
-                entry<NestedNavKey.DownloadModPack> { key ->
-                    DownloadModPackScreen(
-                        key = key,
-                        mainScreenKey = backScreenViewModel.mainScreen.currentKey,
-                        downloadScreenKey = backScreenViewModel.downloadScreen.currentKey,
-                        downloadModPackScreenKey = backScreenViewModel.downloadModPackScreen.currentKey,
-                        onCurrentKeyChange = { newKey ->
-                            backScreenViewModel.downloadModPackScreen.currentKey = newKey
-                        },
-                        eventViewModel = eventViewModel,
-                        importerViewModel = modpackImportViewModel
                     )
                 }
                 entry<NestedNavKey.DownloadMod> { key ->

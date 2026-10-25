@@ -109,7 +109,6 @@ import com.movtery.zalithlauncher.ui.screens.content.LicenseScreen
 import com.movtery.zalithlauncher.ui.screens.content.LogViewScreen
 import com.movtery.zalithlauncher.ui.screens.content.MultiplayerScreen
 import com.movtery.zalithlauncher.ui.screens.content.SettingsScreen
-import com.movtery.zalithlauncher.ui.screens.content.VersionExportScreen
 import com.movtery.zalithlauncher.ui.screens.content.VersionSettingsScreen
 import com.movtery.zalithlauncher.ui.screens.content.VersionsManageScreen
 import com.movtery.zalithlauncher.ui.screens.content.WebViewScreen
@@ -130,7 +129,6 @@ import com.movtery.zalithlauncher.utils.file.formatFileSize
 import com.movtery.zalithlauncher.viewmodel.ErrorViewModel
 import com.movtery.zalithlauncher.viewmodel.EventViewModel
 import com.movtery.zalithlauncher.viewmodel.LocalBackgroundViewModel
-import com.movtery.zalithlauncher.viewmodel.ModpackImportViewModel
 import com.movtery.zalithlauncher.viewmodel.ScreenBackStackViewModel
 import com.movtery.zalithlauncher.viewmodel.sendKeepScreen
 
@@ -138,7 +136,6 @@ import com.movtery.zalithlauncher.viewmodel.sendKeepScreen
 fun MainScreen(
     screenBackStackModel: ScreenBackStackViewModel,
     eventViewModel: EventViewModel,
-    modpackImportViewModel: ModpackImportViewModel,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit
 ) {
     val tasks by TaskSystem.tasksFlow.collectAsStateWithLifecycle()
@@ -243,7 +240,6 @@ fun MainScreen(
                     screenBackStackModel = screenBackStackModel,
                     toMainScreen = toMainScreen,
                     eventViewModel = eventViewModel,
-                    modpackImportViewModel = modpackImportViewModel,
                     submitError = submitError
                 )
 
@@ -505,7 +501,6 @@ private fun NavigationUI(
     screenBackStackModel: ScreenBackStackViewModel,
     toMainScreen: () -> Unit,
     eventViewModel: EventViewModel,
-    modpackImportViewModel: ModpackImportViewModel,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit
 ) {
     val backStack = screenBackStackModel.mainScreen.backStack
@@ -530,15 +525,6 @@ private fun NavigationUI(
                 useClassEquality = true
             )
         }
-        /** 导航至整合包导出屏幕 */
-        val navigateToExport: (Version) -> Unit = { version ->
-            screenBackStackModel.mainScreen.removeAndNavigateTo(
-                remove = NestedNavKey.VersionSettings::class,
-                screenKey = NestedNavKey.VersionExport(version),
-                useClassEquality = true
-            )
-        }
-
         NavDisplay(
             backStack = backStack,
             modifier = modifier,
@@ -607,7 +593,6 @@ private fun NavigationUI(
                     VersionsManageScreen(
                         backScreenViewModel = screenBackStackModel,
                         navigateToVersions = navigateToVersions,
-                        navigateToExport = navigateToExport,
                         eventViewModel = eventViewModel,
                         submitError = submitError
                     )
@@ -625,19 +610,8 @@ private fun NavigationUI(
                         key = key,
                         backScreenViewModel = screenBackStackModel,
                         backToMainScreen = toMainScreen,
-                        onExportModpack = {
-                            navigateToExport(key.version)
-                        },
                         eventViewModel = eventViewModel,
                         submitError = submitError
-                    )
-                }
-                entry<NestedNavKey.VersionExport> { key ->
-                    VersionExportScreen(
-                        key = key,
-                        backScreenViewModel = screenBackStackModel,
-                        eventViewModel = eventViewModel,
-                        backToMainScreen = toMainScreen
                     )
                 }
                 entry<NestedNavKey.Download> { key ->
@@ -645,7 +619,6 @@ private fun NavigationUI(
                         key = key,
                         backScreenViewModel = screenBackStackModel,
                         eventViewModel = eventViewModel,
-                        modpackImportViewModel = modpackImportViewModel,
                         submitError = submitError
                     )
                 }

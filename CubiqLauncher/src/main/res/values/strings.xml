@@ -419,6 +419,7 @@
     <string name="game_menu_title">Game Menu</string>
     <string name="game_menu_option_force_close_text">Forcing the currently running game to close may cause save data corruption or prevent settings from being saved. Avoid this action unless necessary.</string>
     <string name="game_menu_option_switch_log">Log Output</string>
+    <string name="game_menu_option_copy_log">Copy Game Log Path</string>
     <string name="game_menu_option_input_method">Switch Input Method</string>
     <string name="game_menu_option_auto_show_ime">Auto-show Input Method (SDL)</string>
     <string name="game_menu_option_switch_fps">FPS Display</string>
@@ -954,6 +955,12 @@
     <string name="settings_control_mouse_physical_mouse_warning">If your device interprets a physical mouse right-click as "Back" or middle-click as "Home", go to System Settings &gt; Developer Options and enable "Disable Permission Monitoring"; this will likely resolve the issue.</string>
     <string name="settings_control_mouse_hide_title">Hide Virtual Mouse</string>
     <string name="settings_control_mouse_hide_summary">In some situations, you may want to hide the virtual mouse; this setting does not affect physical mouse control or swipe control</string>
+    <string name="settings_control_mouse_auto_hide_title">Auto-Hide Virtual Cursor</string>
+    <string name="settings_control_mouse_auto_hide_summary">Hide the virtual cursor after a period without pointer movement. Moving the pointer or touching the screen brings it back.</string>
+    <string name="settings_control_mouse_auto_hide_delay_title">Cursor Idle Delay</string>
+    <string name="settings_control_mouse_auto_hide_delay_summary">How long the virtual cursor stays visible after the last movement</string>
+    <string name="settings_control_mouse_always_hide_title">Always Hide Virtual Cursor</string>
+    <string name="settings_control_mouse_always_hide_summary">Never draw the on-screen virtual cursor. Touch, physical mouse and gamepad input keep working normally.</string>
     <string name="settings_control_mouse_size_title">Virtual Mouse Size</string>
     <string name="settings_control_mouse_sensitivity_title">Virtual Mouse Sensitivity</string>
     <string name="settings_control_mouse_sensitivity_summary">Adjust the movement speed of the virtual mouse in normal mode</string>

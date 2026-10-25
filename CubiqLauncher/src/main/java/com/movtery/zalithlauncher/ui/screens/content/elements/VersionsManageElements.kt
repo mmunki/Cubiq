@@ -695,7 +695,6 @@ fun VersionItemLayout(
     onSettingsClick: () -> Unit = {},
     onRenameClick: () -> Unit = {},
     onCopyClick: () -> Unit = {},
-    onExportClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
     onPinned: () -> Unit = {}
 ) {
@@ -821,20 +820,6 @@ fun VersionItemLayout(
                         },
                         onClick = {
                             onCopyClick()
-                            menuExpanded = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text(text = stringResource(R.string.versions_export)) },
-                        leadingIcon = {
-                            Icon(
-                                modifier = Modifier.size(20.dp),
-                                painter = painterResource(R.drawable.ic_folder_zip_filled),
-                                contentDescription = stringResource(R.string.versions_export)
-                            )
-                        },
-                        onClick = {
-                            onExportClick()
                             menuExpanded = false
                         }
                     )

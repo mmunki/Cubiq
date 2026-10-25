@@ -102,10 +102,6 @@ import com.movtery.zalithlauncher.viewmodel.LauncherUpgradeOperation
 import com.movtery.zalithlauncher.viewmodel.LauncherUpgradeViewModel
 import com.movtery.zalithlauncher.viewmodel.LogShareViewModel
 import com.movtery.zalithlauncher.viewmodel.LogsUploadViewModel
-import com.movtery.zalithlauncher.viewmodel.ModpackConfirmUseMobileDataOperation
-import com.movtery.zalithlauncher.viewmodel.ModpackImportOperation
-import com.movtery.zalithlauncher.viewmodel.ModpackImportViewModel
-import com.movtery.zalithlauncher.viewmodel.ModpackVersionNameOperation
 import com.movtery.zalithlauncher.viewmodel.ScreenBackStackViewModel
 import com.movtery.zalithlauncher.viewmodel.VulkanCheckerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -190,11 +186,6 @@ class MainActivity : BaseAppCompatActivity() {
      * 启动器背景内容管理 ViewModel
      */
     val backgroundViewModel: BackgroundViewModel by viewModels()
-
-    /**
-     * 整合包导入 ViewModel
-     */
-    val modpackImportViewModel: ModpackImportViewModel by viewModels()
 
     /**
      * 启动器更新状态 ViewModel
@@ -369,7 +360,6 @@ class MainActivity : BaseAppCompatActivity() {
                     MainScreen(
                         screenBackStackModel = screenBackStackModel,
                         eventViewModel = eventViewModel,
-                        modpackImportViewModel = modpackImportViewModel,
                         submitError = {
                             errorViewModel.showError(it)
                         }
@@ -446,37 +436,6 @@ class MainActivity : BaseAppCompatActivity() {
                         }
                     )
                 }
-
-                ModpackImportOperation(
-                    operation = modpackImportViewModel.importOperation,
-                    changeOperation = { modpackImportViewModel.importOperation = it },
-                    importer = modpackImportViewModel.importer,
-                    onCancel = {
-                        modpackImportViewModel.cancel()
-                        lifecycleScope.launch {
-                            keepScreen(false)
-                        }
-                    }
-                )
-
-                //用户确认版本名称 操作流程
-                ModpackVersionNameOperation(
-                    operation = modpackImportViewModel.versionNameOperation,
-                    onConfirmVersionName = { name ->
-                        modpackImportViewModel.confirmVersionName(name)
-                    },
-                    onCancel = {
-                        modpackImportViewModel.cancel()
-                    }
-                )
-
-                //用户确认使用移动网络 操作流程
-                ModpackConfirmUseMobileDataOperation(
-                    operation = modpackImportViewModel.confirmMobileDataOperation,
-                    onConfirmUse = { use ->
-                        modpackImportViewModel.confirmUseMobileData(use)
-                    }
-                )
 
                 //游戏日志分享菜单
                 val logFile = logShareViewModel.currentLogFile
@@ -750,42 +709,12 @@ class MainActivity : BaseAppCompatActivity() {
         val type = intent.getStringExtra(EXTRA_IMPORT_TYPE) ?: return false
 
         val importing = when (type) {
-            IMPORT_TYPE_MODPACK -> handleModpackImport(intent)
             IMPORT_TYPE_CONTROLS -> handleControlsImport(intent)
             else -> false
         }
 
         intent.removeExtra(EXTRA_IMPORT_TYPE)
         return importing
-    }
-
-    /**
-     * @return 是否已经触发了整合包导入程序
-     */
-    private fun handleModpackImport(intent: Intent): Boolean {
-        val uri: Uri? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(EXTRA_IMPORT_URI, Uri::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getParcelableExtra(EXTRA_IMPORT_URI)
-        }
-        if (uri != null) {
-            modpackImportViewModel.import(
-                context = this@MainActivity,
-                uri = uri,
-                onStart = {
-                    lifecycleScope.launch {
-                        keepScreen(true)
-                    }
-                },
-                onStop = {
-                    lifecycleScope.launch {
-                        keepScreen(false)
-                    }
-                }
-            )
-        }
-        return uri != null
     }
 
     /**

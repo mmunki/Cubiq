@@ -29,7 +29,7 @@ Experience seamless desktop Minecraft Java on mobile with hardware-accelerated V
 ### 🖥️ Authentic Minecraft Desktop Launcher UI
 - **Pixel-Accurate Interface**: Faithfully recreates the modern PC Minecraft Launcher aesthetic with raised beveled buttons, pixel borders, and tactile surfaces.
 - **Official Java Edition Tabs**: Play, Installations, Realms, Skins and Patch notes, in the same order as the PC launcher.
-- **Custom Cubiq Branding**: New pixel grass-block logo and app icon.
+- **Official Java Launcher Icon**: The app icon and splash emblem use the official Minecraft: Java Edition grass-block logo, with no Cubiq-specific lettermark.
 - **Audio & Haptic Feedback**: Authentic button click sounds with zero interference during scrolling or gesture navigation.
 - **Pixel Typography**: Native Minecraft font family integrated across installations, settings, and menus.
 
@@ -38,6 +38,7 @@ Experience seamless desktop Minecraft Java on mobile with hardware-accelerated V
 - **On-Screen Control Editor**: Drag, drop, resize, reposition, modify opacity, and map custom keys for every on-screen button.
 - **Physical Controller Support**: Connect Xbox, PlayStation DualShock/DualSense, or generic Bluetooth/USB controllers with full analog stick deadzone and sensitivity calibration.
 - **Virtual Mouse & Gyro Aiming**: Smooth touchpad virtual mouse with configurable tap gestures and optional gyroscope-assisted camera aiming.
+- **Advanced Cursor Hiding**: Auto-hide the virtual cursor after an adjustable idle delay, force-hide it permanently, or hide it in tap-control mode. All pointer-hiding options are available in Settings and in the in-game quick menu.
 
 ### 🚀 Cutting-Edge Graphics Engines & Java Runtimes
 - **Multiple GPU Renderers**:
@@ -52,7 +53,7 @@ Experience seamless desktop Minecraft Java on mobile with hardware-accelerated V
 ### ⚡ Complete Version & Mod Management
 - **Universal Version Support**: Play any release from early classic builds through Minecraft 1.12.2, 1.16.5, 1.20, and 1.21+.
 - **One-Click Mod Loaders**: Automatic installation and launch support for **Fabric**, **Forge**, **NeoForge**, and **Quilt**.
-- **Integrated Download Hub**: Discover, search, filter, and install **Mods**, **Modpacks**, **Resource Packs**, and **Shaders** directly through Modrinth and CurseForge APIs.
+- **Integrated Download Hub**: Discover, search, filter, and install **Mods**, **Resource Packs**, and **Shaders** directly through Modrinth and CurseForge APIs.
 - **Per-Version Isolation**: Separate custom directories, configurations, and JVM flags per installation.
 
 ### 🌐 LAN Multiplayer & Offline Freedom
@@ -73,7 +74,7 @@ Experience seamless desktop Minecraft Java on mobile with hardware-accelerated V
 | **Operating System** | Android 8.0 (Oreo, API 26) | Android 11 – 16 |
 | **Architecture** | `arm64-v8a`, `armeabi-v7a`, `x86_64` | `arm64-v8a` (64-bit) |
 | **RAM** | 3 GB RAM | 6 GB – 8 GB+ RAM (especially for mods/shaders) |
-| **Storage** | 2 GB free internal storage | 5 GB+ for modpacks and assets |
+| **Storage** | 2 GB free internal storage | 5 GB+ for mods, resource packs and assets |
 | **Graphics** | OpenGL ES 3.0 support | Vulkan 1.2+ supported GPU |
 
 ---
@@ -100,7 +101,7 @@ Yes. Cubiq Launcher is completely free, 100% open-source under the GNU GPL-3.0 l
 
 <details>
 <summary><b>2. How does Cubiq Launcher compare to PojavLauncher?</b></summary>
-Cubiq Launcher is built from the ground up with a native Jetpack Compose UI replicating the authentic Minecraft PC Launcher interface. It features modernized renderer switching (Krypton, Kopper Zink), integrated Modrinth/CurseForge downloaders, built-in Terracotta P2P LAN multiplayer, and customizable touch controls.
+Cubiq Launcher is built from the ground up with a native Jetpack Compose UI replicating the authentic Minecraft PC Launcher interface. It features modernized renderer switching (Krypton, Kopper Zink), integrated Modrinth/CurseForge mod, resource-pack and shader downloaders, built-in Terracotta P2P LAN multiplayer, and customizable touch controls with auto-hiding cursors.
 </details>
 
 <details>

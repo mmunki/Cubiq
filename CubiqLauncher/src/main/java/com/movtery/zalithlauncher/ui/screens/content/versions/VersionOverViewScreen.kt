@@ -97,7 +97,6 @@ fun VersionOverViewScreen(
     mainScreenKey: TitledNavKey?,
     versionsScreenKey: TitledNavKey?,
     backToMainScreen: () -> Unit,
-    onExport: () -> Unit,
     eventViewModel: EventViewModel,
     version: Version,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit
@@ -185,7 +184,6 @@ fun VersionOverViewScreen(
                     },
                     onEditSummary = { versionsOperation = VersionsOperation.EditSummary(version) },
                     onRename = { versionsOperation = VersionsOperation.Rename(version) },
-                    onExport = onExport,
                     onDelete = { versionsOperation = VersionsOperation.Delete(version) },
                     onChangeIcon = { showChangeIconDialog = true }
                 )
@@ -266,7 +264,6 @@ private fun VersionManagementLayout(
     onShareLog: (File) -> Unit,
     onEditSummary: () -> Unit,
     onRename: () -> Unit,
-    onExport: () -> Unit,
     onDelete: () -> Unit,
     onChangeIcon: () -> Unit = {},
 ) {
@@ -306,10 +303,6 @@ private fun VersionManagementLayout(
                 CubiqActionButton(
                     text = stringResource(R.string.versions_manage_rename_version),
                     onClick = onRename
-                )
-                CubiqActionButton(
-                    text = stringResource(R.string.versions_export),
-                    onClick = onExport
                 )
                 CubiqActionButton(
                     text = stringResource(R.string.versions_overview_log),

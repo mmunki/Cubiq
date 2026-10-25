@@ -58,7 +58,6 @@ const val EXTRA_IMPORT_ACTION = "EXTRA_IMPORT_ACTION"
 const val EXTRA_IMPORT_URI    = "EXTRA_IMPORT_URI"
 const val EXTRA_IMPORT_TYPE   = "EXTRA_IMPORT_TYPE"
 
-const val IMPORT_TYPE_MODPACK = "modpack"
 const val IMPORT_TYPE_CONTROLS = "controls"
 const val IMPORT_TYPE_UNKNOWN = "unknown"
 

@@ -109,6 +109,7 @@ fun GameMenuSubscreen(
     closeScreen: () -> Unit,
     onForceClose: () -> Unit,
     onSwitchLog: () -> Unit,
+    onCopyLog: () -> Unit,
     enableTerracotta: Boolean,
     onOpenTerracottaMenu: () -> Unit,
     onRefreshWindowSize: () -> Unit,
@@ -194,6 +195,7 @@ fun GameMenuSubscreen(
                 modifier = Modifier.weight(1f),
                 onForceClose = onForceClose,
                 onSwitchLog = onSwitchLog,
+                onCopyLog = onCopyLog,
                 enableTerracotta = enableTerracotta,
                 onOpenTerracottaMenu = onOpenTerracottaMenu,
                 onRefreshWindowSize = onRefreshWindowSize,
@@ -207,6 +209,7 @@ fun GameMenuSubscreen(
 private fun GameActionContent(
     onForceClose: () -> Unit,
     onSwitchLog: () -> Unit,
+    onCopyLog: () -> Unit,
     enableTerracotta: Boolean,
     onOpenTerracottaMenu: () -> Unit,
     onRefreshWindowSize: () -> Unit,
@@ -239,6 +242,17 @@ private fun GameActionContent(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.game_menu_option_switch_log),
                 onClick = onSwitchLog,
+                color = color,
+                contentColor = contentColor,
+            )
+        }
+
+        //复制日志路径
+        item {
+            MenuTextButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.game_menu_option_copy_log),
+                onClick = onCopyLog,
                 color = color,
                 contentColor = contentColor,
             )
@@ -604,6 +618,43 @@ private fun ControlMouse(
                 color = color,
                 contentColor = contentColor,
                 enabled = AllSettings.mouseControlMode.state == MouseControlMode.CLICK
+            )
+        }
+        //自动隐藏虚拟鼠标
+        item {
+            MenuSwitchButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.settings_control_mouse_auto_hide_title),
+                switch = AllSettings.autoHideMouse.state,
+                onSwitch = { AllSettings.autoHideMouse.save(it) },
+                color = color,
+                contentColor = contentColor,
+            )
+        }
+        //虚拟鼠标自动隐藏延迟
+        item {
+            MenuSliderLayout(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(R.string.settings_control_mouse_auto_hide_delay_title),
+                value = AllSettings.mouseAutoHideDelay.state,
+                valueRange = AllSettings.mouseAutoHideDelay.floatRange,
+                enabled = AllSettings.autoHideMouse.state,
+                onValueChange = { AllSettings.mouseAutoHideDelay.updateState(it) },
+                onValueChangeFinished = { AllSettings.mouseAutoHideDelay.save(it) },
+                suffix = "ms",
+                color = color,
+                contentColor = contentColor,
+            )
+        }
+        //始终隐藏虚拟鼠标
+        item {
+            MenuSwitchButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.settings_control_mouse_always_hide_title),
+                switch = AllSettings.alwaysHideMouse.state,
+                onSwitch = { AllSettings.alwaysHideMouse.save(it) },
+                color = color,
+                contentColor = contentColor,
             )
         }
         //触控板式操作
