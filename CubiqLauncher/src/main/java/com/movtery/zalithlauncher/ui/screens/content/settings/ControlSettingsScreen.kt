@@ -384,6 +384,42 @@ fun ControlSettingsScreen(
                     SwitchSettingsCard(
                         modifier = Modifier.fillMaxWidth(),
                         position = CardPosition.Top,
+                        unit = AllSettings.autoHideMouse,
+                        title = stringResource(R.string.settings_control_mouse_auto_hide_title),
+                        summary = stringResource(R.string.settings_control_mouse_auto_hide_summary)
+                    )
+
+                    IntSliderSettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Middle,
+                        unit = AllSettings.mouseAutoHideDelay,
+                        title = stringResource(R.string.settings_control_mouse_auto_hide_delay_title),
+                        summary = stringResource(R.string.settings_control_mouse_auto_hide_delay_summary),
+                        valueRange = AllSettings.mouseAutoHideDelay.floatRange,
+                        suffix = "ms",
+                        enabled = AllSettings.autoHideMouse.state,
+                        fineTuningControl = true
+                    )
+
+                    SwitchSettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Bottom,
+                        unit = AllSettings.alwaysHideMouse,
+                        title = stringResource(R.string.settings_control_mouse_always_hide_title),
+                        summary = stringResource(R.string.settings_control_mouse_always_hide_summary)
+                    )
+                }
+            }
+
+            AnimatedItem(scope) { yOffset ->
+                SettingsCardColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset { IntOffset(x = 0, y = yOffset.roundToPx()) }
+                ) {
+                    SwitchSettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Top,
                         unit = AllSettings.gestureControl,
                         title = stringResource(R.string.settings_control_gesture_control_title),
                         summary = stringResource(R.string.settings_control_gesture_control_summary)

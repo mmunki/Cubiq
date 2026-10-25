@@ -221,7 +221,6 @@ fun VersionSettingsScreen(
     key: NestedNavKey.VersionSettings,
     backScreenViewModel: ScreenBackStackViewModel,
     backToMainScreen: () -> Unit,
-    onExportModpack: () -> Unit,
     eventViewModel: EventViewModel,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit
 ) {
@@ -298,18 +297,6 @@ fun VersionSettingsScreen(
                     modifier = Modifier.padding(horizontal = 6.dp)
                 )
 
-                com.movtery.zalithlauncher.ui.components.MinecraftButton(
-                    onClick = {
-                        com.movtery.zalithlauncher.ui.sound.MinecraftSoundHelper.playClickSound()
-                        onExportModpack()
-                    },
-                    style = com.movtery.zalithlauncher.ui.components.MinecraftButtonStyle.GREEN,
-                    text = "EXPORT",
-                    fontSize = 11.sp,
-                    modifier = Modifier
-                        .width(76.dp)
-                        .height(32.dp)
-                )
             }
 
             // Top Horizontal Scrollable Tabs Menu
@@ -336,7 +323,6 @@ fun VersionSettingsScreen(
                         key.currentKey = newKey
                     },
                     backToMainScreen = backToMainScreen,
-                    onExport = onExportModpack,
                     version = key.version,
                     eventViewModel = eventViewModel,
                     submitError = submitError
@@ -486,7 +472,6 @@ private fun NavigationUI(
     versionsScreenKey: TitledNavKey?,
     onCurrentKeyChange: (TitledNavKey?) -> Unit,
     backToMainScreen: () -> Unit,
-    onExport: () -> Unit,
     version: Version,
     eventViewModel: EventViewModel,
     submitError: (ErrorViewModel.ThrowableMessage) -> Unit
@@ -515,7 +500,6 @@ private fun NavigationUI(
                         mainScreenKey = mainScreenKey,
                         versionsScreenKey = versionsScreenKey,
                         backToMainScreen = backToMainScreen,
-                        onExport = onExport,
                         version = version,
                         eventViewModel = eventViewModel,
                         submitError = submitError

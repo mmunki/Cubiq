@@ -153,43 +153,6 @@ fun MinecraftInstallationsScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.width(6.dp))
-
-                // Direct "+ Modpack" Profile Button
-                Box(
-                    modifier = Modifier
-                        .height(38.dp)
-                        .clip(RoundedCornerShape(3.dp))
-                        .background(Color(0xFF222428))
-                        .border(BorderStroke(1.dp, Color(0xFF3A3A3E)), RoundedCornerShape(3.dp))
-                        .clickable {
-                            com.movtery.zalithlauncher.ui.sound.MinecraftSoundHelper.playClickSound()
-                            backStackViewModel.navigateToDownload(backStackViewModel.downloadModPackScreen)
-                        }
-                        .padding(horizontal = 12.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        Text(
-                            text = "+",
-                            color = Color(0xFF38BDF8),
-                            fontFamily = MinecraftFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp
-                        )
-                        Text(
-                            text = "Modpack",
-                            color = Color(0xFFE2E2E2),
-                            fontFamily = MinecraftFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp
-                        )
-                    }
-                }
-
                 // Unclipped, Pixel-Aligned Search Bar
                 Box(
                     modifier = Modifier
@@ -408,10 +371,6 @@ fun MinecraftInstallationsScreen(
             NewInstallationDialog(
                 latestVersion = latestReleaseVersion,
                 onDismiss = { showNewInstallationDialog = false },
-                onAddModPackClick = {
-                    showNewInstallationDialog = false
-                    backStackViewModel.navigateToDownload(backStackViewModel.downloadModPackScreen)
-                },
                 onCreate = { name, version, loader, iconRes, iconId ->
                     showNewInstallationDialog = false
                     InstallationDownloadManager.startInstallation(
@@ -1031,7 +990,6 @@ private fun isVersionSupportedForLoader(version: String, loader: String): Boolea
 private fun NewInstallationDialog(
     latestVersion: String,
     onDismiss: () -> Unit,
-    onAddModPackClick: () -> Unit,
     onCreate: (name: String, version: String, loader: String, iconRes: Int, iconId: String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
@@ -1417,51 +1375,6 @@ private fun NewInstallationDialog(
                                 }
                             }
                         }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // 5. Direct Option to Create/Add a Modpack Profile
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(3.dp))
-                        .background(Color(0xFF132230))
-                        .border(BorderStroke(1.dp, Color(0xFF1D4ED8)), RoundedCornerShape(3.dp))
-                        .clickable {
-                            onDismiss()
-                            onAddModPackClick()
-                        }
-                        .padding(horizontal = 10.dp, vertical = 8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "WANT A MODPACK PROFILE?",
-                                color = Color(0xFF60A5FA),
-                                fontFamily = MinecraftFontFamily,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 11.sp
-                            )
-                            Text(
-                                text = "Browse CurseForge & Modrinth modpacks directly",
-                                color = Color(0xFFA1A1AA),
-                                fontFamily = MinecraftFontFamily,
-                                fontSize = 9.5.sp
-                            )
-                        }
-                        Text(
-                            text = "BROWSE →",
-                            color = Color(0xFF93C5FD),
-                            fontFamily = MinecraftFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 11.sp
-                        )
                     }
                 }
             }

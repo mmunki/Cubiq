@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.delay
 import com.movtery.zalithlauncher.bridge.CURSOR_DISABLED
 import com.movtery.zalithlauncher.bridge.CURSOR_ENABLED
 import com.movtery.zalithlauncher.bridge.ZLBridgeStates
@@ -56,6 +58,9 @@ typealias CursorMode = Int
  * @param longPressTimeoutMillis    长按触发检测时长
  * @param requestPointerCapture     是否使用鼠标抓取方案
  * @param hideMouseInClickMode      是否在鼠标为点击控制模式时，隐藏鼠标指针
+ * @param autoHideMouse             是否在没有指针移动时自动隐藏虚拟鼠标
+ * @param mouseAutoHideDelayMillis  虚拟鼠标自动隐藏前的空闲时间
+ * @param alwaysHideMouse           是否始终隐藏虚拟鼠标
  * @param gamepadViewModel          更新手柄状态的ViewModel
  * @param onTouch                   触摸到鼠标层
  * @param onMouse                   实体鼠标交互事件
@@ -87,6 +92,9 @@ fun SwitchableMouseLayout(
     longPressTimeoutMillis: Long = AllSettings.mouseLongPressDelay.state.toLong(),
     requestPointerCapture: Boolean = !AllSettings.physicalMouseMode.state,
     hideMouseInClickMode: Boolean = AllSettings.hideMouse.state,
+    autoHideMouse: Boolean = AllSettings.autoHideMouse.state,
+    mouseAutoHideDelayMillis: Int = AllSettings.mouseAutoHideDelay.state,
+    alwaysHideMouse: Boolean = AllSettings.alwaysHideMouse.state,
     gamepadViewModel: GamepadViewModel? = null,
     onTouch: () -> Unit = {},
     onMouse: () -> Unit = {},
@@ -146,10 +154,13 @@ fun SwitchableMouseLayout(
     var showMousePointer by remember {
         mutableStateOf(requestPointerCapture)
     }
+    var pointerActivity by remember { mutableIntStateOf(0) }
     fun updateMousePointer(show: Boolean) {
-        showMousePointer = show
+        val allowed = show && !alwaysHideMouse
+        showMousePointer = allowed
+        if (allowed) pointerActivity++
     }
-    LaunchedEffect(cursorMode, hideMouseInClickMode) {
+    LaunchedEffect(cursorMode, hideMouseInClickMode, alwaysHideMouse) {
         updateMousePointer(
             show = if (cursorMode == CURSOR_ENABLED) {
                 when {
@@ -160,6 +171,12 @@ fun SwitchableMouseLayout(
                 }
             } else false
         )
+    }
+    LaunchedEffect(pointerActivity, autoHideMouse, mouseAutoHideDelayMillis) {
+        if (autoHideMouse && showMousePointer) {
+            delay(mouseAutoHideDelayMillis.toLong())
+            if (showMousePointer) updateMousePointer(false)
+        }
     }
 
     val requestPointerCapture1 by remember(isCaptured) {

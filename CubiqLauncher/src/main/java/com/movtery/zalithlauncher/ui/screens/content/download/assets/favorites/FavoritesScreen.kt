@@ -143,6 +143,7 @@ private class FavoritesScreenViewModel : ViewModel() {
 
         FavoriteProjectsRepository.projects.values
             .asSequence()
+            .filter { entry -> entry.project.classes != PlatformClasses.MOD_PACK }
             .filter { entry -> category == null || entry.project.classes == category }
             .filter { entry ->
                 keyword.isEmpty() || entry.displayTitle().contains(keyword, ignoreCase = true)
@@ -394,7 +395,7 @@ private fun FavoritesContent(
                             selected = viewModel.category == null,
                             onClick = { viewModel.onCategoryChange(null) }
                         )
-                        PlatformClasses.entries.forEach { classes ->
+                        PlatformClasses.entries.filter { it != PlatformClasses.MOD_PACK }.forEach { classes ->
                             FavoriteCategoryItem(
                                 text = stringResource(classes.categoryText()),
                                 selected = viewModel.category == classes,
@@ -541,8 +542,7 @@ private fun FavoritesFilter(
             }
 
             // Optional ModLoader horizontal chips if enabled
-            val enableModLoader = viewModel.category == PlatformClasses.MOD ||
-                    viewModel.category == PlatformClasses.MOD_PACK
+            val enableModLoader = viewModel.category == PlatformClasses.MOD
             if (enableModLoader && favoriteModLoaderFilters.isNotEmpty()) {
                 val scrollState = rememberScrollState()
                 Row(

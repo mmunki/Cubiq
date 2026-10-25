@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -55,6 +56,7 @@ import com.movtery.zalithlauncher.utils.device.PhysicalMouseChecker
 import com.movtery.zalithlauncher.utils.file.child
 import com.movtery.zalithlauncher.utils.file.ifExists
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -105,6 +107,9 @@ val notAllowedPointerFile: File = PathManager.DIR_MOUSE_POINTER.child("not_allow
  * @param longPressTimeoutMillis    长按触发检测时长
  * @param requestPointerCapture     是否使用鼠标抓取方案
  * @param hideMouseInClickMode      是否在鼠标为点击控制模式时，隐藏鼠标指针
+ * @param autoHideMouse             是否在没有指针移动时自动隐藏虚拟鼠标
+ * @param mouseAutoHideDelayMillis  虚拟鼠标自动隐藏前的空闲时间
+ * @param alwaysHideMouse           是否始终隐藏虚拟鼠标
  * @param lastMousePosition         上次虚拟鼠标指针位置
  * @param onTap                     点击回调，参数是触摸点在控件内的绝对坐标
  * @param onLongPress               长按开始回调
@@ -126,6 +131,9 @@ fun VirtualPointerLayout(
     longPressTimeoutMillis: Long = AllSettings.mouseLongPressDelay.state.toLong(),
     requestPointerCapture: Boolean = !AllSettings.physicalMouseMode.state,
     hideMouseInClickMode: Boolean = AllSettings.hideMouse.state,
+    autoHideMouse: Boolean = AllSettings.autoHideMouse.state,
+    mouseAutoHideDelayMillis: Int = AllSettings.mouseAutoHideDelay.state,
+    alwaysHideMouse: Boolean = AllSettings.alwaysHideMouse.state,
     lastMousePosition: Offset? = null,
     onTap: (Offset) -> Unit = {},
     onLongPress: () -> Unit = {},
@@ -151,10 +159,13 @@ fun VirtualPointerLayout(
     var showMousePointer by remember {
         mutableStateOf(requestPointerCapture)
     }
+    var pointerActivity by remember { mutableIntStateOf(0) }
     fun updateMousePointer(show: Boolean) {
-        showMousePointer = show
+        val allowed = show && !alwaysHideMouse
+        showMousePointer = allowed
+        if (allowed) pointerActivity++
     }
-    LaunchedEffect(hideMouseInClickMode) {
+    LaunchedEffect(hideMouseInClickMode, alwaysHideMouse) {
         updateMousePointer(
             show = when {
                 //物理鼠标已连接：是否为抓获控制模式
@@ -163,6 +174,12 @@ fun VirtualPointerLayout(
                 else -> true
             }
         )
+    }
+    LaunchedEffect(pointerActivity, autoHideMouse, mouseAutoHideDelayMillis) {
+        if (autoHideMouse && showMousePointer) {
+            delay(mouseAutoHideDelayMillis.toLong())
+            if (showMousePointer) updateMousePointer(false)
+        }
     }
 
     var pointerPosition by remember {

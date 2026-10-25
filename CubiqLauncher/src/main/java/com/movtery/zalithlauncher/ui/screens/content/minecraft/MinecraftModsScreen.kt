@@ -60,15 +60,6 @@ fun MinecraftModsScreen(
 ) {
     val categories = listOf(
         ContentCategory(
-            title = "Modpacks",
-            subtitle = "Browse & install CurseForge and Modrinth modpacks",
-            iconRes = R.drawable.ic_package_2_outlined,
-            badge = "Modrinth / CF",
-            onClick = {
-                backStackViewModel.navigateToDownload(backStackViewModel.downloadModPackScreen)
-            }
-        ),
-        ContentCategory(
             title = "Mods",
             subtitle = "Search, download and auto-install Fabric & Forge mods",
             iconRes = R.drawable.ic_extension_outlined,
@@ -151,7 +142,7 @@ fun MinecraftModsScreen(
                         )
                         Spacer(modifier = Modifier.height(3.dp))
                         Text(
-                            text = "Download modpacks, shaders, mods & resource packs directly from official repositories",
+                            text = "Download shaders, mods & resource packs directly from official repositories",
                             color = Color(0xFFAAAAAA),
                             fontFamily = MinecraftFontFamily,
                             fontSize = 11.sp
