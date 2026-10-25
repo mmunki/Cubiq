@@ -1,0 +1,55 @@
+*.iml
+.gradle
+.idea
+.kotlin
+/local.properties
+.DS_Store
+/build
+build/
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+.oauth_client_id.txt
+.store_password.txt
+.key_password.txt
+.curseforge_api.txt
+LWJGL/build/
+LWJGL/*/build/
+LWJGL/*/bin/
+LWJGL/**/bin/
+release-apks/
+
+# AI agent
+.zcode/
+.agent/
+.claude/
+.cursor/
+.codex/
+.continue/
+.aider/
+.roo/
+.windsurf/
+.trae/
+.gemini/
+.ampersand/
+
+.vscode/
+
+# Binaries and release outputs
+*.apk
+release_apks/
+release_binaries/
+
+# Local backups and research
+backup_libs/
+offline_runtimes_backup/
+cubiq_control_research/
+cubiq_control_assets/
+Cubiq_Minecraft_Java_Touch_Controls*
+generate_asset_pack.py
+
+# IDE
+.vs/
+.zcodeignore
+release-apks/
